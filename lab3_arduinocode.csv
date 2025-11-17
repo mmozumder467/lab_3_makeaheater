@@ -1,0 +1,33 @@
+const int SENSOR_PIN = A0; 
+const int POT_PIN = A2;    
+const int HEATER_PIN = 9;  
+
+int heatLevel = 0;
+
+void setup() {
+  pinMode(HEATER_PIN, OUTPUT);
+  
+  Serial.begin(9600);
+  
+  Serial.println("Time (ms),Potentiometer Value,Thermistor Value");
+}
+
+void loop() {
+  unsigned long currentTime = millis();
+
+  int potValue = analogRead(POT_PIN);
+
+  int thermistorValue = analogRead(SENSOR_PIN);
+
+  heatLevel = map(potValue, 0, 1023, 0, 255);
+  
+  analogWrite(HEATER_PIN, heatLevel);
+
+  Serial.print(currentTime);
+  Serial.print(",");
+  Serial.print(potValue);
+  Serial.print(",");
+  Serial.println(thermistorValue); 
+
+  delay(200);
+}
